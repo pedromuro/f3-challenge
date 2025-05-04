@@ -4,7 +4,7 @@ import tseslint from 'typescript-eslint';
 import json from '@eslint/json';
 import { defineConfig } from 'eslint/config';
 import eslintPluginPrettier from 'eslint-plugin-prettier/recommended';
-
+import eslintPluginStylistic from '@stylistic/eslint-plugin-ts';
 export default [
   ...defineConfig([
     {
@@ -21,6 +21,22 @@ export default [
       plugins: { json },
       language: 'json/json',
       extends: ['json/recommended'],
+    },
+    {
+      files: ['**/*.ts'],
+      plugins: {
+        '@stylistic': eslintPluginStylistic,
+      },
+      rules: {
+        '@stylistic/padding-line-between-statements': [
+          'error',
+          {
+            blankLine: 'always',
+            prev: '*',
+            next: '*',
+          },
+        ],
+      },
     },
     eslintPluginPrettier,
   ]),

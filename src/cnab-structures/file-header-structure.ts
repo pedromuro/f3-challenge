@@ -1,4 +1,4 @@
-import { registerStructure } from '../cnab-parser/structures-registrator';
+import { StructuresRegistrator } from '../cnab-parser/structures-registrator';
 
 import {
   CnabControle,
@@ -25,7 +25,7 @@ export type CnabHeader = {
 
 export type HeaderStructure = CnabRegisterStructure<CnabHeader>;
 
-export const FILE_HEADER_STRUCTURE: HeaderStructure = {
+export const FILE_HEADER_COMPLETE_STRUCTURE: HeaderStructure = {
   controle: {
     codBanco: [1, 3],
     loteServico: [4, 7],
@@ -63,7 +63,7 @@ export const FILE_HEADER_STRUCTURE: HeaderStructure = {
   reservadoEmpresa: [192, 211],
 };
 
-registerStructure({
-  structure: FILE_HEADER_STRUCTURE,
+StructuresRegistrator.getInstance('complete').registerStructure({
+  structure: FILE_HEADER_COMPLETE_STRUCTURE,
   registerType: CnabTipoRegistro.HEADER_ARQUIVO,
 });

@@ -1,4 +1,4 @@
-import { registerStructure } from '../../cnab-parser/structures-registrator';
+import { StructuresRegistrator } from '../../cnab-parser/structures-registrator';
 
 import {
   CnabCodigoSegmentoDetalhe,
@@ -119,7 +119,7 @@ export const DETALHE_COBRANCA_SEGMENTO_P_STRUCTURE: CnabRegisterStructure<Detalh
     livre: [240, 240],
   };
 
-registerStructure({
+StructuresRegistrator.getInstance('complete').registerStructure({
   structure: DETALHE_COBRANCA_SEGMENTO_P_STRUCTURE,
   registerType: CnabTipoRegistro.DETALHE,
   segmentType: CnabCodigoSegmentoDetalhe.P,

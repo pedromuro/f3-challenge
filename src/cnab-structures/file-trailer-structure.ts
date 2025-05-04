@@ -1,4 +1,4 @@
-import { registerStructure } from '../cnab-parser/structures-registrator';
+import { StructuresRegistrator } from '../cnab-parser/structures-registrator';
 
 import { CnabRegisterStructure } from '../types/cnab-register-structure.type';
 
@@ -30,7 +30,7 @@ export const FILE_TRAILER_STRUCTURE: TrailerStructure = {
   },
 };
 
-registerStructure({
+StructuresRegistrator.getInstance('complete').registerStructure({
   structure: FILE_TRAILER_STRUCTURE,
   registerType: CnabTipoRegistro.TRAILER_ARQUIVO,
 });

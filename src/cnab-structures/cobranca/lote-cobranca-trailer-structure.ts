@@ -1,4 +1,4 @@
-import { registerStructure } from '../../cnab-parser/structures-registrator';
+import { StructuresRegistrator } from '../../cnab-parser/structures-registrator';
 
 import {
   CnabControle,
@@ -58,7 +58,7 @@ const LOTE_COBRANCA_TRAILER_STRUCTURE: LoteCobrancaTrailerStructure = {
   numeroAviso: [116, 123],
 };
 
-registerStructure({
+StructuresRegistrator.getInstance('complete').registerStructure({
   structure: LOTE_COBRANCA_TRAILER_STRUCTURE,
   registerType: CnabTipoRegistro.TRAILER_LOTE,
   serviceType: CnabTipoServico.COBRANCA,

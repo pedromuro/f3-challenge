@@ -5,3 +5,5 @@ export * from './cnab-header-lote-type';
 export * from './cnab-register-structure.type';
 
 export * from './common-cnab-types';
+
+export * from './cnab-remessa-summary.type';

@@ -1,99 +1,93 @@
-import { Transform, TransformCallback, TransformOptions } from 'node:stream';
+import { Transform, TransformCallback } from 'node:stream';
 
 import { CnabTipoRegistro } from '../../types';
 
 import { parseLine } from '../transformers-commons';
 
-import { StructuresRegistrator } from '../structures-registrator';
+export const getCnabToJsonFullTransform = (): Transform => {
+  let firstLine = true;
 
-export class CnabToJsonFullTransformer extends Transform {
-  constructor(options?: TransformOptions) {
-    super(options);
-  }
+  let currentLoteDetailsCount = 0;
 
-  private firstLine = true;
+  let isFirstLote = true;
 
-  private currentLoteDetailsCount = 0;
+  return new Transform({
+    transform(
+      lineChunk: Buffer,
+      encoding: BufferEncoding,
+      callback: TransformCallback,
+    ) {
+      const { parsed, registerType } = parseLine(lineChunk);
 
-  private isFirstLote = true;
+      let jsonChunk = '';
 
-  private readonly register = StructuresRegistrator.getInstance('complete');
+      const jsonString = JSON.stringify(parsed, null, 2);
 
-  _transform(
-    lineChunk: Buffer,
-    encoding: BufferEncoding,
-    callback: TransformCallback,
-  ) {
-    const { parsed, registerType } = parseLine(lineChunk, this.register);
+      if (firstLine) {
+        jsonChunk += '{';
 
-    let jsonChunk = '';
-
-    const jsonString = JSON.stringify(parsed, null, 2);
-
-    if (this.firstLine) {
-      jsonChunk += '{';
-
-      this.firstLine = false;
-    }
-
-    if (registerType === CnabTipoRegistro.HEADER_ARQUIVO) {
-      jsonChunk += '"headerArquivo": ';
-
-      jsonChunk += jsonString;
-
-      jsonChunk += ',\n';
-
-      jsonChunk += '"lotes": [\n';
-    }
-
-    if (registerType === CnabTipoRegistro.HEADER_LOTE) {
-      this.currentLoteDetailsCount = 0;
-
-      if (!this.isFirstLote) {
-        jsonChunk += ',\n';
+        firstLine = false;
       }
 
-      this.isFirstLote = false;
+      if (registerType === CnabTipoRegistro.HEADER_ARQUIVO) {
+        jsonChunk += '"headerArquivo": ';
 
-      jsonChunk += '{\n"headerLote": ';
+        jsonChunk += jsonString;
 
-      jsonChunk += jsonString;
-
-      jsonChunk += ',\n';
-
-      jsonChunk += '"detalhes": [\n';
-    }
-
-    if (registerType === CnabTipoRegistro.DETALHE) {
-      if (this.currentLoteDetailsCount > 0) {
         jsonChunk += ',\n';
+
+        jsonChunk += '"lotes": [\n';
       }
 
-      jsonChunk += jsonString;
+      if (registerType === CnabTipoRegistro.HEADER_LOTE) {
+        currentLoteDetailsCount = 0;
 
-      this.currentLoteDetailsCount++;
-    }
+        if (!isFirstLote) {
+          jsonChunk += ',\n';
+        }
 
-    if (registerType === CnabTipoRegistro.TRAILER_LOTE) {
-      jsonChunk += '],';
+        isFirstLote = false;
 
-      jsonChunk += '"trailerLote": ';
+        jsonChunk += '{\n"headerLote": ';
 
-      jsonChunk += jsonString;
+        jsonChunk += jsonString;
 
-      jsonChunk += '}\n';
-    }
+        jsonChunk += ',\n';
 
-    if (registerType === CnabTipoRegistro.TRAILER_ARQUIVO) {
-      jsonChunk += '],';
+        jsonChunk += '"detalhes": [\n';
+      }
 
-      jsonChunk += '"trailerArquivo": ';
+      if (registerType === CnabTipoRegistro.DETALHE) {
+        if (currentLoteDetailsCount > 0) {
+          jsonChunk += ',\n';
+        }
 
-      jsonChunk += jsonString;
+        jsonChunk += jsonString;
 
-      jsonChunk += '}\n';
-    }
+        currentLoteDetailsCount++;
+      }
 
-    callback(null, jsonChunk);
-  }
-}
+      if (registerType === CnabTipoRegistro.TRAILER_LOTE) {
+        jsonChunk += '],';
+
+        jsonChunk += '"trailerLote": ';
+
+        jsonChunk += jsonString;
+
+        jsonChunk += '}\n';
+      }
+
+      if (registerType === CnabTipoRegistro.TRAILER_ARQUIVO) {
+        jsonChunk += '],';
+
+        jsonChunk += '"trailerArquivo": ';
+
+        jsonChunk += jsonString;
+
+        jsonChunk += '}\n';
+      }
+
+      callback(null, jsonChunk);
+    },
+  });
+};

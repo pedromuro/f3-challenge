@@ -119,7 +119,7 @@ export const DETALHE_COBRANCA_SEGMENTO_P_STRUCTURE: CnabRegisterStructure<Detalh
     livre: [240, 240],
   };
 
-StructuresRegistrator.getInstance('complete').registerStructure({
+StructuresRegistrator.getInstance().registerStructure({
   structure: DETALHE_COBRANCA_SEGMENTO_P_STRUCTURE,
   registerType: CnabTipoRegistro.DETALHE,
   segmentType: CnabCodigoSegmentoDetalhe.P,

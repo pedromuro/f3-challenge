@@ -63,7 +63,7 @@ export const FILE_HEADER_COMPLETE_STRUCTURE: HeaderStructure = {
   reservadoEmpresa: [192, 211],
 };
 
-StructuresRegistrator.getInstance('complete').registerStructure({
+StructuresRegistrator.getInstance().registerStructure({
   structure: FILE_HEADER_COMPLETE_STRUCTURE,
   registerType: CnabTipoRegistro.HEADER_ARQUIVO,
 });

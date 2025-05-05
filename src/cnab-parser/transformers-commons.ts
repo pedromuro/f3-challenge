@@ -4,7 +4,7 @@ import {
   CnabCodigoSegmentoDetalhe,
 } from '../types';
 
-import { StructuresRegister } from './structures-registrator';
+import { StructuresRegistrator } from './structures-registrator';
 
 // !!! Não seguro para execução de múltiplas streams
 let lastLoteHeaderBuffer: Buffer;
@@ -84,12 +84,11 @@ const getReducer = (lineBuffer: Buffer) => {
 
 export const parseLine = (
   lineBuffer: Buffer,
-  register: StructuresRegister,
 ): { parsed: Record<string, unknown>; registerType: CnabTipoRegistro } => {
   const { registerType, serviceType, segmentType } =
     extractRegisterIdentifiers(lineBuffer) ?? {};
 
-  const structure = register.getRegisterStructure({
+  const structure = StructuresRegistrator.getInstance().getRegisterStructure({
     registerType,
     serviceType,
     segmentType,

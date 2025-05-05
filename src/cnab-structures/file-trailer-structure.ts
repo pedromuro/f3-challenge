@@ -30,7 +30,7 @@ export const FILE_TRAILER_STRUCTURE: TrailerStructure = {
   },
 };
 
-StructuresRegistrator.getInstance('complete').registerStructure({
+StructuresRegistrator.getInstance().registerStructure({
   structure: FILE_TRAILER_STRUCTURE,
   registerType: CnabTipoRegistro.TRAILER_ARQUIVO,
 });

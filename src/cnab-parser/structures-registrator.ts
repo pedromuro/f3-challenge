@@ -89,17 +89,14 @@ export class StructuresRegister {
 }
 
 export class StructuresRegistrator {
-  private static instances: { [key in RegisterType]: StructuresRegister } = {
-    complete: new StructuresRegister(),
-    partial: new StructuresRegister(),
-  };
+  private static instance: StructuresRegister;
 
-  public static getInstance(type: RegisterType) {
-    if (!this.instances[type]) {
-      this.instances[type] = new StructuresRegister();
+  public static getInstance() {
+    if (!this.instance) {
+      this.instance = new StructuresRegister();
     }
 
-    return this.instances[type];
+    return this.instance;
   }
 }
 
@@ -121,5 +118,3 @@ type SegmentTypeRegister = Record<
 >;
 
 type ServiceTypeRegister = Record<CnabTipoServico, CnabRegisterStructure>;
-
-type RegisterType = 'complete' | 'partial';

@@ -64,7 +64,7 @@ const LOTE_COBRANCA_HEADER_STRUCTURE: LoteCobrancaHeaderStructure = {
   dataCredito: [200, 207],
 };
 
-StructuresRegistrator.getInstance('complete').registerStructure({
+StructuresRegistrator.getInstance().registerStructure({
   structure: LOTE_COBRANCA_HEADER_STRUCTURE,
   registerType: CnabTipoRegistro.HEADER_LOTE,
   serviceType: CnabTipoServico.COBRANCA,

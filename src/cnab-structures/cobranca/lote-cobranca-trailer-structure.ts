@@ -58,7 +58,7 @@ const LOTE_COBRANCA_TRAILER_STRUCTURE: LoteCobrancaTrailerStructure = {
   numeroAviso: [116, 123],
 };
 
-StructuresRegistrator.getInstance('complete').registerStructure({
+StructuresRegistrator.getInstance().registerStructure({
   structure: LOTE_COBRANCA_TRAILER_STRUCTURE,
   registerType: CnabTipoRegistro.TRAILER_LOTE,
   serviceType: CnabTipoServico.COBRANCA,

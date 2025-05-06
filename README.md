@@ -66,3 +66,37 @@ O desafio consiste em implementar as seguintes funcionalidades:
 ### Bônus
 
 O candidato tem total liberdade de mudar a estrutura atual desse projeto, a ideía é ver a criatividade para resolver esse problema.
+
+
+### Contexto adicional da resolução do desafio
+
+O desafio foi resolvido tendo como principais fundamentos:
+   - Performance e capacidade de processar grandes volumes de dados (arquivos grandes);
+   - Extensibilidade: Apesar de ainda requerer alguns ajustes para ter este objetivo totalmente atingido, tive como premissa a abstração dos  conjuntos de dados e do mecanismo de parsing para que seja possível facilmente adicionar a capability de processar outros tipos de serviços e seus respectivos tipos de segmentos.
+
+
+## Tecnologias e técnicas
+
+Como peças fundamentais para o atingimentos destes objetivos, algumas técnicas e tecologias foram adotadas:
+
+- TypeScript, que possibilita uma escrita de código mais coesa, auxiliando na prevenção de erros de runtime e na implementação de design patters;
+- Node.js Streams para ler, processar e escrever os dados dos arquivos sob demanda, evitando problemas com memória de trabalho e travamento da aplicação.
+- Padrões de design, ou design patterns, como Factory e Strategy, fundamentais para que a implementação seja facilmente extensível.
+
+## Instruções
+
+⚠ **Este projeto foi desenvolvido para rodar na versão v22.15.0 do Node.js**
+
+Instalar as dependências, transpilar o código TS e executar a aplicação ✌️
+
+```bash
+npm install
+```
+```bash
+npm run build
+```
+```bash
+npm run start
+```
+
+A própria aplicação lhe orientará através da CLI sobre a especificação dos parâmetros.

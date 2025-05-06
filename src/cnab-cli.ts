@@ -1,6 +1,10 @@
 import { userPrompts } from './cli/user-prompts';
 
-import { parseCnabToJson, parseCnabToJsonSummary } from './cnab-parser/parser';
+import {
+  parseCnabObjectSummary,
+  parseCnabToJson,
+  parseCnabToJsonSummary,
+} from './cnab-parser/parser';
 
 async function startCli() {
   const {
@@ -16,6 +20,20 @@ async function startCli() {
 
   console.time('CNAB File Processing');
 
+  if (outputFormat === 'console') {
+    const summary = await parseCnabObjectSummary(
+      sourceFilePath,
+      filtroLinhaInicial,
+      filtroLinhaFinal,
+      filtroTipoSegmento,
+      nomeEmpresaPagadora,
+    );
+
+    console.table(summary);
+
+    return;
+  }
+
   if (outputFormat === 'json' && jsonMode === 'summary') {
     await parseCnabToJsonSummary(
       sourceFilePath,
@@ -30,14 +48,7 @@ async function startCli() {
   }
 
   if (outputFormat === 'json' && jsonMode === 'complete') {
-    await parseCnabToJson(
-      sourceFilePath,
-      outputFilePath,
-      filtroLinhaInicial,
-      filtroLinhaFinal,
-      filtroTipoSegmento,
-      nomeEmpresaPagadora,
-    );
+    await parseCnabToJson(sourceFilePath, outputFilePath);
   }
 
   console.timeEnd('CNAB File Processing');

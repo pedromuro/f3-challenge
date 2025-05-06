@@ -13,7 +13,8 @@ export const getFilterTransformer = (filters: {
   const normalizedFilterNome = filters.nomeEmpresaPagadora
     ?.trim()
     ?.normalize('NFD')
-    ?.replace(/\p{Diacritic}/gu, '');
+    ?.replace(/\p{Diacritic}/gu, '')
+    .toLowerCase();
 
   return new Transform({
     transform(chunk, encoding, callback) {
@@ -31,15 +32,14 @@ export const getFilterTransformer = (filters: {
       ) {
         const { parsed } = parseLine(chunk);
 
-        const { dadosPagador } = parsed.parsed as Pick<
-          DetalheCobrancaSegmentoQ,
-          'dadosPagador'
-        >;
+        const { dadosPagador } =
+          (parsed as Pick<DetalheCobrancaSegmentoQ, 'dadosPagador'>) ?? {};
 
         const normalizedChunkNome = dadosPagador?.nome
           ?.trim()
           ?.normalize('NFD')
-          ?.replace(/\p{Diacritic}/gu, '');
+          ?.replace(/\p{Diacritic}/gu, '')
+          .toLowerCase();
 
         if (
           normalizedChunkNome?.length &&

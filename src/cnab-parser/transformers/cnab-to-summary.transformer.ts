@@ -177,12 +177,14 @@ const extractFromDetail = (
   return summary;
 };
 
-export const getCnabToJsonSummaryTransform = (): Transform => {
+export const getCnabToSummaryTransform = (): Transform => {
   let linesCount = 0;
 
-  let summary: Partial<CnabSummary> = {};
+  const summarySentControl: {
+    [k in keyof CnabSummary]?: boolean;
+  } = {};
 
-  summary.empresasPagadoras = [];
+  const empresasPagadorasSentControl: string[] = [];
 
   return new Transform({
     transform(
@@ -200,6 +202,30 @@ export const getCnabToJsonSummaryTransform = (): Transform => {
         linesCount,
       );
 
+      if (fromFileHeader) {
+        const { bancoBeneficiario, empresaBeneficiaria } = fromFileHeader ?? {};
+
+        if (!summarySentControl.bancoBeneficiario && bancoBeneficiario) {
+          this.push(
+            JSON.stringify(<Pick<CnabSummary, 'bancoBeneficiario'>>{
+              bancoBeneficiario,
+            }),
+          );
+
+          summarySentControl.bancoBeneficiario = true;
+        }
+
+        if (!summarySentControl.empresaBeneficiaria && empresaBeneficiaria) {
+          this.push(
+            JSON.stringify(<Pick<CnabSummary, 'empresaBeneficiaria'>>{
+              empresaBeneficiaria,
+            }),
+          );
+
+          summarySentControl.empresaBeneficiaria = true;
+        }
+      }
+
       const fromDetail =
         extractFromDetail(parsed, registerType, linesCount) ?? {};
 
@@ -207,21 +233,23 @@ export const getCnabToJsonSummaryTransform = (): Transform => {
 
       const [empresa] = empresasPagadoras ?? []; //apenas uma empresa pode ser extraida do segmento Q
 
-      const alreadyCounted = summary.empresasPagadoras?.some(
-        (ep) => ep.numeroInscricao.valor === empresa?.numeroInscricao?.valor,
-      );
+      if (empresa) {
+        const alreadyCounted = empresasPagadorasSentControl.includes(
+          empresa?.numeroInscricao?.valor,
+        );
 
-      summary = {
-        ...summary,
-        ...fromFileHeader,
-        ...fromDetail,
-        empresasPagadoras: [
-          ...(summary.empresasPagadoras ?? []),
-          ...(empresa && !alreadyCounted ? [empresa] : []),
-        ],
-      };
+        if (!alreadyCounted) {
+          this.push(
+            JSON.stringify(<Pick<CnabSummary, 'empresasPagadoras'>>{
+              empresasPagadoras: [empresa],
+            }),
+          );
 
-      callback(null, JSON.stringify(summary, null, 2));
+          empresasPagadorasSentControl.push(empresa?.numeroInscricao?.valor);
+        }
+      }
+
+      callback();
     },
   });
 };

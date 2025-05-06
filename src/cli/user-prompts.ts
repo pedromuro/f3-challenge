@@ -36,7 +36,7 @@ export const userPrompts = async () => {
       ],
     },
     {
-      type: 'select',
+      type: (_, value) => (value.outputFormat === 'json' ? 'select' : null),
       name: 'jsonMode',
       message: 'Selecione o modo de saída JSON',
       choices: [
@@ -65,7 +65,8 @@ export const userPrompts = async () => {
     },
     {
       type: (_, values) => {
-        if (values.outputFormat === 'json') return null;
+        if (values.outputFormat === 'json' && values.jsonMode === 'complete')
+          return null;
 
         return 'select';
       },

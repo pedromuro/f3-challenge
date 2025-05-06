@@ -5,13 +5,15 @@
   "author": "Quando Previdência",
   "license": "UNLICENSED",
   "type": "commonjs",
+  "engines": {
+    "node": ">=22.15.0"
+  },
   "scripts": {
     "build": "npx tsc",
-    "start": "node ./dist/index.js"
+    "start": "node ./dist/cnab-cli.js"
   },
   "dependencies": {
     "chalk": "^4.1.0",
-    "pdf2json": "^3.1.4",
     "prompts": "^2.4.2",
     "table": "^6.9.0",
     "yargs": "^16.2.0"

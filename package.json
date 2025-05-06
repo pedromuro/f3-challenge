@@ -13,6 +13,7 @@
     "chalk": "^4.1.0",
     "pdf2json": "^3.1.4",
     "prompts": "^2.4.2",
+    "table": "^6.9.0",
     "yargs": "^16.2.0"
   },
   "devDependencies": {

@@ -1,5 +1,7 @@
 # Desafio técnico: Leitor de Arquivos CNAB
 
+[Detalhes sobre a implementação](#contexto-adicional-da-resolucao-do-desafio)
+
 ## Introdução
 Este desafio tem a proposta de melhorar uma CLI que lê arquivos CNAB.
 O arquivo CNAB (Comunicação Nacional de Boleto) não se refere a um formato específico de arquivo, mas sim a um padrão de comunicação utilizado no Brasil para troca de informações entre instituições financeiras e empresas. O CNAB é um acrônimo para "Centro Nacional de Automação Bancária", e o termo geralmente está associado aos arquivos de remessa e retorno utilizados em transações bancárias, especialmente relacionadas a boletos bancários.
@@ -68,7 +70,7 @@ O desafio consiste em implementar as seguintes funcionalidades:
 O candidato tem total liberdade de mudar a estrutura atual desse projeto, a ideía é ver a criatividade para resolver esse problema.
 
 
-### Contexto adicional da resolução do desafio
+#Contexto adicional da resolução do desafio
 
 O desafio foi resolvido tendo como principais fundamentos:
    - Performance e capacidade de processar grandes volumes de dados (arquivos grandes);

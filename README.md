@@ -70,7 +70,7 @@ O desafio consiste em implementar as seguintes funcionalidades:
 O candidato tem total liberdade de mudar a estrutura atual desse projeto, a ideía é ver a criatividade para resolver esse problema.
 
 
-#Contexto adicional da resolução do desafio
+# Contexto adicional da resolução do desafio
 
 O desafio foi resolvido tendo como principais fundamentos:
    - Performance e capacidade de processar grandes volumes de dados (arquivos grandes);
